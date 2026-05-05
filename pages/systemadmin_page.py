@@ -137,18 +137,24 @@ class SystemAdminPage:
     def get_enable_message(self):
         return self.get_text(self.ENABLE_MSG)
     
-    def is_play_enabled(self, play_name):
+    # def is_play_enabled(self, play_name):
 
-        status = self.wait.until(
-            EC.visibility_of_element_located((
-                By.XPATH,
-                f"//h3[normalize-space()='{play_name}']"
-                f"/ancestor::div[contains(@class,'rounded-lg')]"
-                f"//span[contains(@class,'rounded-full')]"
-            ))
-        )
+    #     locator = (
+    #         By.XPATH,
+    #         f"//h3[normalize-space()='{play_name}']"
+    #         f"/ancestor::div[contains(@class,'rounded-lg')]"
+    #         f"//span[contains(@class,'rounded-full')]"
+    #     )
 
-        return status.text.strip().lower()
+    #     # Wait until element text becomes valid (RE-FIND each time)
+    #     self.wait.until(
+    #         lambda d: d.find_element(*locator).text.strip().lower() in ["enabled", "disabled"]
+    #     )
+
+    #     # Get fresh element again
+    #     element = self.driver.find_element(*locator)
+
+    #     return element.text.strip().lower()
         
     
     #------------Credit History Download----------------#
