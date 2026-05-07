@@ -6,7 +6,7 @@ from pages.user_admin_page import UserAdminPage
 
 
 @pytest.fixture
-def duplicate_admin_creation(browser):
+def duplicate_systemadmin_creation(browser):
 
     login = LoginPage(browser)
     login.login("prekshita@sourceoptima.com", "aspl1234")
@@ -19,13 +19,13 @@ def duplicate_admin_creation(browser):
     user_page.click_create_user()
 
     timestamp = str(int(time.time()))
-    email = f"test_admin_{timestamp}@aspl.ai"
+    email = f"test_systemadmin_{timestamp}@aspl.ai"
 
-    user_page.enter_full_name(f"admin_{timestamp}")
+    user_page.enter_full_name(f"systemadmin_{timestamp}")
     user_page.enter_email(email)
     user_page.enter_password("aspl@1234")
     user_page.enter_confirm_password("aspl@1234")
-    user_page.select_user_role("Admin")
+    user_page.select_user_role("System Administrator")
     user_page.submit_user()
 
     # Wait until success toast fully appears

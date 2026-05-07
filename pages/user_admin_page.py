@@ -19,16 +19,16 @@ class UserAdminPage:
         self.wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Cancel']"))).click()
 
     def enter_full_name(self, name):
-        self.wait.until(EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Enter full name (e.g., John Doe)']"))).send_keys(name)
+        self.wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@placeholder='Enter full name (e.g., John Doe)']"))).send_keys(name)
 
     def enter_email(self, email):
-        self.wait.until(EC.presence_of_element_located((By.XPATH, "//input[@placeholder='user@example.com']"))).send_keys(email)
+        self.wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@placeholder='user@example.com']"))).send_keys(email)
 
     def enter_password(self, password):
-        self.wait.until(EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Enter secure password']"))).send_keys(password)
+        self.wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@placeholder='Enter secure password']"))).send_keys(password)
 
     def enter_confirm_password(self, password):
-        self.wait.until(EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Re-enter password']"))).send_keys(password)
+        self.wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@placeholder='Re-enter password']"))).send_keys(password)
 
 
     def select_user_role(self, role_name):
@@ -41,30 +41,42 @@ class UserAdminPage:
     #         (By.XPATH, "//button[@type='submit']")
     #     )).click()
     
+    # def submit_user(self):
+    #     import time
+
+    #     # wait until button is present
+    #     submit_btn = self.wait.until(EC.visibility_of_element_located(
+    #         (By.XPATH, "//button[@type='submit']")
+    #     ))
+
+    #     # scroll into view
+    #     self.driver.execute_script("arguments[0].scrollIntoView(true);", submit_btn)
+
+    #     # small wait for UI (VERY IMPORTANT)
+    #     time.sleep(2)
+
+    #     # force click using JavaScript (FINAL FIX)
+    #     self.driver.execute_script("arguments[0].click();", submit_btn)
+
     def submit_user(self):
-        import time
 
-        # wait until button is present
-        submit_btn = self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, "//button[@type='submit']")
-        ))
+        submit_btn = self.wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, "//button[@type='submit']")
+            )
+        )
 
-        # scroll into view
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", submit_btn)
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});",
+            submit_btn
+        )
 
-        # small wait for UI (VERY IMPORTANT)
-        time.sleep(2)
-
-        # force click using JavaScript (FINAL FIX)
         self.driver.execute_script("arguments[0].click();", submit_btn)
 
-    # def get_success_message(self):
-    #     return self.wait.until(EC.visibility_of_element_located(
-    #         (By.XPATH, "//div[text()='User created successfully']")
-    #     )).text
+    
 
     def get_success_message(self):
-        return self.wait.until(EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'User created')]"))).text
+        return self.wait.until(EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'User created successfully')]"))).text
     
     def get_duplicate_error(self):
         return self.wait.until(EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'Failed to create user')]"))).text

@@ -21,7 +21,8 @@ def available_plays(browser):
         "Drawing Checker - Both",
         "Drawing Checker - Veeco",
         "Drawing Checker - General",
-        "Drawing Checker V2"
+        "Drawing Checker V2",
+        "Weight Estimation"
     ]
 
     return admin, play_name

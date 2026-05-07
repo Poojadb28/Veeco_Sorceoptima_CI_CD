@@ -1,5 +1,4 @@
 import pytest
-from selenium.webdriver.support.ui import WebDriverWait
 
 @pytest.mark.regression
 def test_available_plays_enable_disable(available_plays):

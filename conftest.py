@@ -28,7 +28,10 @@
 #     "fixtures.export_credit_history_fixture",
 #     "fixtures.export_classification_to_excel_fixture",
 #     "fixtures.duplicate_admin_creation_fixture",
-#     "fixtures.duplicate_user_creation_fixture"
+#     "fixtures.duplicate_user_creation_fixture",
+#     "fixtures.systemadmin_creation_fixture",
+#     "fixtures.duplicate_systemadmin_creation_fixture",
+#     "fixtures.weight_estimation_play_fixture"
 # ]
 
 # import pytest
@@ -112,7 +115,7 @@
 #         chrome_options = Options()
 
 #         # Required for Jenkins / headless
-#         chrome_options.add_argument("--headless=new")
+#         # chrome_options.add_argument("--headless=new")
 #         chrome_options.add_argument("--no-sandbox")
 #         chrome_options.add_argument("--disable-dev-shm-usage")
 #         chrome_options.add_argument("--disable-gpu")
@@ -207,7 +210,10 @@ pytest_plugins = [
     "fixtures.export_credit_history_fixture",
     "fixtures.export_classification_to_excel_fixture",
     "fixtures.duplicate_admin_creation_fixture",
-    "fixtures.duplicate_user_creation_fixture"
+    "fixtures.duplicate_user_creation_fixture",
+    "fixtures.systemadmin_creation_fixture",
+    "fixtures.duplicate_systemadmin_creation_fixture",
+    "fixtures.weight_estimation_play_fixture"
 ]
 
 import pytest
