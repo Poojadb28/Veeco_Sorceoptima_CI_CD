@@ -11,10 +11,6 @@ class DrawingAtlasPage:
         self.driver = driver
         self.wait = WebDriverWait(driver, 120)
 
-    # def wait_for_page_load(self):
-    #     self.wait.until(
-    #         lambda d: d.execute_script("return document.readyState") == "complete"
-    #     )
 
     # LOCATORS
     dropdown = (By.XPATH, "//select[contains(@class,'text-sm')]")

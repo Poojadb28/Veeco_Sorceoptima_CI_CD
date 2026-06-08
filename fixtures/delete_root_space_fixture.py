@@ -8,10 +8,8 @@ from pages.systemadmin_login_page import LoginPage
 def delete_root_space(browser):
     login = LoginPage(browser)
     login.login("prekshita@sourceoptima.com", "aspl1234")
-    # login.wait_for_page_load()
     
     project = ProjectPage(browser)
-    # project.wait_for_page_load()
 
     # ================= NAVIGATION =================
     project.click_projects()
@@ -20,14 +18,11 @@ def delete_root_space(browser):
     root_space_name = f"TestSpace_{int(time.time())}"
 
     project.right_click_on_canvas()
-    # project.wait_for_page_load()
     project.click_new_root_space()
-    # project.wait_for_page_load()
     project.enter_space_name(root_space_name)
     project.choose_icon()
     project.select_color()
     project.click_create_space()
-    # project.wait_for_page_load()
 
     # wait for creation
     project.wait.until(lambda d: root_space_name in d.page_source)

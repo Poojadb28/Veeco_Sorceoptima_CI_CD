@@ -37,11 +37,6 @@ def delete_file(browser):
     project_name = f"TestFile_{int(time.time())}"
     file_path = os.path.abspath("testdata/files/0194.pdf")
 
-    # project.click_new_upload()
-    # project.enter_project_name(project_name)
-    # project.upload_file(file_path)
-    
-
     project.click_new_upload()
     project.enter_project_name(project_name)
     project.upload_file(file_path)

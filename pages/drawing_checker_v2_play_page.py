@@ -11,11 +11,6 @@ class DrawingCheckerV2Page:
         self.driver = driver
         self.wait = WebDriverWait(driver, 120)
 
-    # def wait_for_page_load(self):
-    #     self.wait.until(
-    #         lambda d: d.execute_script("return document.readyState") == "complete"
-    #     )
-
     # ---------------- LOCATORS ---------------- #
 
     dropdown = (By.XPATH, "//select[.//option[normalize-space()='Drawing Checker V2']]")
@@ -27,22 +22,13 @@ class DrawingCheckerV2Page:
     severity_dropdown = (By.XPATH, "//select[@id='severity-filter']")
     source_dropdown = (By.XPATH, "//select[@id='source-filter']")
 
-    # FIXED (dynamic locator instead of absolute XPath)
+    # dynamic locator instead of absolute XPath
     drilldown_btn = (By.XPATH, "//button[contains(@class,'drill') or contains(.,'Drill')]")
 
     # correct download locator
     download_btn = (By.XPATH, "//a[normalize-space()='Download PDF Report']")
 
     # ---------------- ACTIONS ---------------- #
-
-    # def select_drawing_checker(self):
-
-    #     dropdown = self.wait.until(
-    #         EC.presence_of_element_located(self.dropdown)
-    #     )
-
-    #     select = Select(dropdown)
-    #     select.select_by_visible_text("Drawing Checker - V2")
 
     def select_drawing_checker(self):
         dropdown = self.wait.until(EC.element_to_be_clickable(self.dropdown))
@@ -120,31 +106,6 @@ class DrawingCheckerV2Page:
         raise Exception("Drilldown button not found")
 
     # ---------------- DOWNLOAD ---------------- #
-
-    # def download_report(self, download_dir):
-
-    #     if not os.path.exists(download_dir):
-    #         raise Exception(f"Download directory not found: {download_dir}")
-
-    #     print("Waiting for download button...")
-
-    #     time.sleep(3)
-
-    #     button = self.wait.until(
-    #         EC.element_to_be_clickable(self.download_btn)
-    #     )
-
-    #     self.driver.execute_script(
-    #         "arguments[0].scrollIntoView({block:'center'});", button
-    #     )
-
-    #     time.sleep(1)
-
-    #     try:
-    #         button.click()
-    #     except:
-    #         self.driver.execute_script("arguments[0].click();", button)
-
     
     def download_report(self, download_dir):
 

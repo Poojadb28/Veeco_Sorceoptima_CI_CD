@@ -33,7 +33,6 @@ def create_project(browser):
     project.select_color()
     project.click_create_space()
 
-    # project.wait.until(lambda d: root_space in d.page_source)
     project.wait_for_page_load()
 
     project.wait.until(

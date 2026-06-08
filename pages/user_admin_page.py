@@ -36,28 +36,6 @@ class UserAdminPage:
 
         self.wait.until(EC.element_to_be_clickable((By.XPATH, f"//option[contains(text(),'{role_name}')]"))).click()
 
-    # def submit_user(self):
-    #     self.wait.until(EC.element_to_be_clickable(
-    #         (By.XPATH, "//button[@type='submit']")
-    #     )).click()
-    
-    # def submit_user(self):
-    #     import time
-
-    #     # wait until button is present
-    #     submit_btn = self.wait.until(EC.visibility_of_element_located(
-    #         (By.XPATH, "//button[@type='submit']")
-    #     ))
-
-    #     # scroll into view
-    #     self.driver.execute_script("arguments[0].scrollIntoView(true);", submit_btn)
-
-    #     # small wait for UI (VERY IMPORTANT)
-    #     time.sleep(2)
-
-    #     # force click using JavaScript (FINAL FIX)
-    #     self.driver.execute_script("arguments[0].click();", submit_btn)
-
     def submit_user(self):
 
         submit_btn = self.wait.until(

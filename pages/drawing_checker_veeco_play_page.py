@@ -11,11 +11,6 @@ class DrawingCheckerVeecoPage:
         self.driver = driver
         self.wait = WebDriverWait(driver, 120)
 
-    # def wait_for_page_load(self):
-    #     self.wait.until(
-    #         lambda d: d.execute_script("return document.readyState") == "complete"
-    #     )
-
     # ---------------- LOCATORS ---------------- #
     dropdown = (By.XPATH, "//select[.//option[normalize-space()='Drawing Checker - Veeco']]")
     option = (By.XPATH, "//option[normalize-space()='Drawing Checker - Veeco']")
@@ -113,27 +108,6 @@ class DrawingCheckerVeecoPage:
         raise Exception("Drilldown button not found")
 
     # ---------------- DOWNLOAD ---------------- #
-
-    # def download_report(self, download_dir):
-
-    #     print("Waiting for Download PDF Report...")
-
-    #     time.sleep(3)
-
-    #     button = self.wait.until(
-    #         EC.element_to_be_clickable(self.download_btn)
-    #     )
-
-    #     self.driver.execute_script(
-    #         "arguments[0].scrollIntoView({block:'center'});", button
-    #     )
-
-    #     time.sleep(1)
-
-    #     try:
-    #         button.click()
-    #     except:
-    #         self.driver.execute_script("arguments[0].click();", button)
 
     def download_report(self, download_dir):
 

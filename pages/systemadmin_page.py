@@ -52,25 +52,7 @@ class SystemAdminPage:
         )
         self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", section)
 
-    # def toggle_play(self, play_name):
-
-    #     print(f"Toggling: {play_name}")
-
-    #     toggle = self.wait.until(
-    #         EC.element_to_be_clickable((
-    #             By.XPATH,
-    #             f"//h3[normalize-space()='{play_name}']"
-    #             f"/ancestor::div[contains(@class,'rounded-lg')]"
-    #             f"//button[contains(@class,'inline-flex')]"
-    #         ))
-    #     )
-
-    #     self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", toggle)
-    #     self.driver.execute_script("arguments[0].click();", toggle)
-
     def toggle_play(self, play_name):
-
-        # print(f"Toggling: {play_name}")
 
         toggle = self.wait.until(
             EC.element_to_be_clickable((
@@ -93,14 +75,6 @@ class SystemAdminPage:
     def get_disable_message(self):
         return self.get_text(self.DISABLE_MSG)
     
-    # def wait_for_disable_message(self):
-    #     self.wait.until(
-    #         EC.text_to_be_present_in_element(
-    #             self.DISABLE_MSG,
-    #             "disabled"
-    #         )
-    #     )
-    #     return self.driver.find_element(*self.DISABLE_MSG).text.strip()
 
     def wait_for_disable_message(self):
 
@@ -113,16 +87,6 @@ class SystemAdminPage:
 
         return element.text.strip()
 
-
-    # def wait_for_enable_message(self):
-    #     self.wait.until(
-    #         EC.text_to_be_present_in_element(
-    #             self.ENABLE_MSG,
-    #             "enabled"
-    #         )
-    #     )
-    #     return self.driver.find_element(*self.ENABLE_MSG).text.strip()
-
     def wait_for_enable_message(self):
 
         element = self.wait.until(
@@ -133,29 +97,9 @@ class SystemAdminPage:
 
         return element.text.strip()
 
-    
 
     def get_enable_message(self):
         return self.get_text(self.ENABLE_MSG)
-    
-    # def is_play_enabled(self, play_name):
-
-    #     locator = (
-    #         By.XPATH,
-    #         f"//h3[normalize-space()='{play_name}']"
-    #         f"/ancestor::div[contains(@class,'rounded-lg')]"
-    #         f"//span[contains(@class,'rounded-full')]"
-    #     )
-
-    #     # Wait until element text becomes valid (RE-FIND each time)
-    #     self.wait.until(
-    #         lambda d: d.find_element(*locator).text.strip().lower() in ["enabled", "disabled"]
-    #     )
-
-    #     # Get fresh element again
-    #     element = self.driver.find_element(*locator)
-
-    #     return element.text.strip().lower()
         
     
     #------------Credit History Download----------------#
