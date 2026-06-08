@@ -160,17 +160,30 @@ def cost_reduction_play(browser):
 
     # =========================
     # SELECT FILES
-    # =========================
+    # ========================= 
     # project.select_all_files()
-
-    # time.sleep(2) 
-    project.select_all_files()
     
-    # WAIT FOR UI TO BE READY AFTER FILE SELECTION
-    project.wait.until(lambda d: len(d.find_elements(By.XPATH, "//select")) > 0)
+    # # WAIT FOR UI TO BE READY AFTER FILE SELECTION
+    # project.wait.until(lambda d: len(d.find_elements(By.XPATH, "//select")) > 0)
 
-    # Optional extra stability for CI
-    time.sleep(2) 
+    # # Optional extra stability for CI
+    # time.sleep(2) 
+
+    project.select_all_files()
+
+    # Wait dropdown/select elements loaded
+    project.wait.until(
+        lambda d: len(
+            d.find_elements(By.XPATH, "//select")
+        ) > 0
+    )
+
+    # Wait page fully stabilized
+    project.wait.until(
+        lambda d: d.execute_script(
+            "return document.readyState"
+        ) == "complete"
+    )
     # =========================
     # COST REDUCTION FLOW
     # =========================

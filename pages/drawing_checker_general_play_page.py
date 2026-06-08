@@ -1,7 +1,7 @@
 import os
 import time
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
@@ -18,7 +18,7 @@ class DrawingCheckerGeneralPage:
 
     # ---------------- LOCATORS ---------------- #
 
-    dropdown = (By.XPATH, "//select[contains(@class,'text-sm')]")
+    dropdown = (By.XPATH, "//select[.//option[normalize-space()='Drawing Checker - General']]")
     option = (By.XPATH, "//option[normalize-space()='Drawing Checker - General']")
     run_btn = (By.XPATH, "//button[contains(text(),'Run Drawing Checker - General')]")
     view_results = (By.XPATH, "//button[normalize-space()='View Results']")
@@ -35,8 +35,8 @@ class DrawingCheckerGeneralPage:
     # ---------------- ACTIONS ---------------- #
 
     def select_drawing_checker_general(self):
-        self.wait.until(EC.element_to_be_clickable(self.dropdown)).click()
-        self.wait.until(EC.element_to_be_clickable(self.option)).click()
+        dropdown = self.wait.until(EC.element_to_be_clickable(self.dropdown))
+        Select(dropdown).select_by_visible_text("Drawing Checker - General")
 
     def click_run(self):
         self.wait.until(EC.element_to_be_clickable(self.run_btn)).click()
@@ -70,26 +70,12 @@ class DrawingCheckerGeneralPage:
     def filter_by_severity(self, value):
 
         dropdown = self.wait.until(EC.element_to_be_clickable(self.severity_dropdown))
-        dropdown.click()
-
-        option = self.wait.until(
-            EC.element_to_be_clickable(
-                (By.XPATH, f"//select[@id='severity-filter']/option[normalize-space()='{value}']")
-            )
-        )
-        option.click()
+        Select(dropdown).select_by_visible_text(value)
 
     def filter_by_source(self, value):
 
         dropdown = self.wait.until(EC.element_to_be_clickable(self.source_dropdown))
-        dropdown.click()
-
-        option = self.wait.until(
-            EC.element_to_be_clickable(
-                (By.XPATH, f"//select[@id='source-filter']/option[normalize-space()='{value}']")
-            )
-        )
-        option.click()
+        Select(dropdown).select_by_visible_text(value)
 
     # ---------------- DRILLDOWN ---------------- #
 
@@ -167,7 +153,7 @@ class DrawingCheckerGeneralPage:
         except:
             self.driver.execute_script("arguments[0].click();", button)
 
-        import time
+        
         timeout = 120
         end_time = time.time() + timeout
 
@@ -187,4 +173,3 @@ class DrawingCheckerGeneralPage:
         raise Exception("Download not detected")
 
        
-

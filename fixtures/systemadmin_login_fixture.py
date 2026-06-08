@@ -41,8 +41,8 @@ def invalid_admin_login(browser):
 @pytest.fixture
 def user_login(browser):
     login = LoginPage(browser)
-    # login.login("poojadb1147@aspl.ai", "aspl@1234")
-    login.login("user3@gmail.com", "aspl@1234")
+    login.login("poojadb1147@aspl.ai", "aspl@1234")
+    # login.login("user3@gmail.com", "aspl@1234")
     return browser
 
 

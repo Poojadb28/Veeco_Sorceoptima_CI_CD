@@ -17,7 +17,10 @@ def test_drawing_checker_general_play(drawing_checker_general_play):
 
     # ================= FILTER =================
     general.filter_by_severity("Critical")
+    general.filter_by_severity("All Severities")
+
     general.filter_by_source("General Engineering")
+    general.filter_by_source("All Sources")
 
     # ================= DRILLDOWN =================
     time.sleep(2)

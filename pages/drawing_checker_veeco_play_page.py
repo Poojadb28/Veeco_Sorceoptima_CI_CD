@@ -1,6 +1,7 @@
 import time
+import os
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
@@ -16,7 +17,7 @@ class DrawingCheckerVeecoPage:
     #     )
 
     # ---------------- LOCATORS ---------------- #
-    dropdown = (By.XPATH, "//select[contains(@class,'text-sm')]")
+    dropdown = (By.XPATH, "//select[.//option[normalize-space()='Drawing Checker - Veeco']]")
     option = (By.XPATH, "//option[normalize-space()='Drawing Checker - Veeco']")
     run_btn = (By.XPATH, "//button[contains(text(),'Run Drawing Checker - Veeco')]")
     view_results = (By.XPATH, "//button[normalize-space()='View Results']")
@@ -32,8 +33,8 @@ class DrawingCheckerVeecoPage:
     # ---------------- ACTIONS ---------------- #
 
     def select_drawing_checker_veeco(self):
-        self.wait.until(EC.element_to_be_clickable(self.dropdown)).click()
-        self.wait.until(EC.element_to_be_clickable(self.option)).click()
+        dropdown = self.wait.until(EC.element_to_be_clickable(self.dropdown))
+        Select(dropdown).select_by_visible_text("Drawing Checker - Veeco")
 
     def click_run(self):
         self.wait.until(EC.element_to_be_clickable(self.run_btn)).click()
@@ -136,8 +137,6 @@ class DrawingCheckerVeecoPage:
 
     def download_report(self, download_dir):
 
-        import os
-        import time
 
         if not os.path.exists(download_dir):
             raise Exception(f"Download directory not found: {download_dir}")

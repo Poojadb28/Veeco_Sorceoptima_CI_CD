@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8"/>
-    <title>test_report_5.html</title>
+    <title>veeco_sourceoptima_report_2.html</title>
     <style>body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 12px;
@@ -438,8 +438,8 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
     notFoundMessage.hidden = !allRowsHidden;
 }
 </script>
-    <h1>test_report_5.html</h1>
-    <p>Report generated on 06-May-2026 at 17:04:10 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.2.0</p>
+    <h1>veeco_sourceoptima_report_2.html</h1>
+    <p>Report generated on 08-Jun-2026 at 12:35:31 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.2.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -458,8 +458,8 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <td>Python</td>
         <td>3.6.8</td></tr></table>
     <h2>Summary</h2>
-    <p>36 tests ran in 1858.70 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">36 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">1 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <p>39 tests ran in 1433.84 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">39 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -470,20 +470,11 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
           <th class="sortable links" col="links">Links</th></tr>
         <tr hidden="true" id="not-found-message">
           <th colspan="4">No results found. Try to check the filters</th></tr></thead>
-      <tbody class="error results-table-row">
-        <tr>
-          <td class="col-result">Error</td>
-          <td class="col-name">tests/plays/test_drawing_checker_veeco_play.py::test_drawing_checker_veeco_play::setup</td>
-          <td class="col-duration">159.30</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">browser = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&quot;166e866bd564a2a5cabd08690343a8c1&quot;)&gt;<br/><br/>    @pytest.fixture<br/>    def drawing_checker_veeco_play(browser):<br/>    <br/>        login = LoginPage(browser)<br/>        login.login(&quot;prekshita@sourceoptima.com&quot;, &quot;aspl1234&quot;)<br/>    <br/>        project = ProjectPage(browser)<br/>        veeco = DrawingCheckerVeecoPage(browser)<br/>    <br/>        # ================= PROJECT =================<br/>        project.click_projects()<br/>    <br/>        project.right_click_on_canvas()<br/>        project.click_new_root_space()<br/>    <br/>        root_space = f&quot;TestSpace_{int(time.time())}&quot;<br/>    <br/>        project.enter_space_name(root_space)<br/>        project.open_icon_selector()<br/>        project.select_color()<br/>        project.click_create_space()<br/>    <br/>        project.wait.until(lambda d: root_space in d.page_source)<br/>        project.open_root_space(root_space)<br/>    <br/>        project_name = f&quot;TestFile_{int(time.time())}&quot;<br/>        file_path = os.path.abspath(&quot;testdata/files/0194.pdf&quot;)<br/>    <br/>        if not os.path.exists(file_path):<br/>            raise Exception(f&quot;File not found: {file_path}&quot;)<br/>    <br/>        project.click_new_upload()<br/>        project.enter_project_name(project_name)<br/>        project.upload_file(file_path)<br/>        project.click_upload()<br/>    <br/>        project.wait_for_processing_complete()<br/>    <br/>        project.open_project(project_name)<br/>        project.select_all_files()<br/>    <br/>        # ================= PLAY =================<br/>&gt;       veeco.select_drawing_checker_veeco()<br/><br/>fixtures\drawing_checker_veeco_play_fixture.py:53: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>pages\drawing_checker_veeco_play_page.py:36: in select_drawing_checker_veeco<br/>    self.wait.until(EC.element_to_be_clickable(self.option)).click()<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;selenium.webdriver.support.wait.WebDriverWait (session=&quot;166e866bd564a2a5cabd08690343a8c1&quot;)&gt;<br/>method = &lt;selenium.webdriver.support.expected_conditions.element_to_be_clickable object at 0x000002339EFDAA90&gt;, message = &#x27;&#x27;<br/><br/>    def until(self, method, message=&#x27;&#x27;):<br/>        &quot;&quot;&quot;Calls the method provided with the driver as an argument until the \<br/>        return value is not False.&quot;&quot;&quot;<br/>        screen = None<br/>        stacktrace = None<br/>    <br/>        end_time = time.time() + self._timeout<br/>        while True:<br/>            try:<br/>                value = method(self._driver)<br/>                if value:<br/>                    return value<br/>            except self._ignored_exceptions as exc:<br/>                screen = getattr(exc, &#x27;screen&#x27;, None)<br/>                stacktrace = getattr(exc, &#x27;stacktrace&#x27;, None)<br/>            time.sleep(self._poll)<br/>            if time.time() &gt; end_time:<br/>                break<br/>&gt;       raise TimeoutException(message, screen, stacktrace)<br/><span class="error">E       selenium.common.exceptions.TimeoutException: Message:</span><br/><br/>..\..\appdata\local\programs\python\python36\lib\site-packages\selenium\webdriver\support\wait.py:80: TimeoutException<br/></div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/files/test_delete_file.py::test_delete_file</td>
-          <td class="col-duration">68.13</td>
+          <td class="col-duration">30.38</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -492,7 +483,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/files/test_download_logs.py::test_download_logs</td>
-          <td class="col-duration">37.02</td>
+          <td class="col-duration">43.93</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -501,7 +492,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/files/test_filter_labels.py::test_filter_labels</td>
-          <td class="col-duration">69.61</td>
+          <td class="col-duration">50.22</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -510,7 +501,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/files/test_select_deselect_all_files.py::test_select_deselect_all_files</td>
-          <td class="col-duration">42.82</td>
+          <td class="col-duration">26.21</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -519,7 +510,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/login/test_admin_invalid_login.py::test_admin_invalid_login</td>
-          <td class="col-duration">9.15</td>
+          <td class="col-duration">11.48</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -528,7 +519,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/login/test_admin_login.py::test_admin_login</td>
-          <td class="col-duration">10.05</td>
+          <td class="col-duration">12.58</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -537,7 +528,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/login/test_logout.py::test_logout</td>
-          <td class="col-duration">13.65</td>
+          <td class="col-duration">12.63</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -546,7 +537,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/login/test_systemadmin_invalig_login.py::test_system_admin_invalid_login</td>
-          <td class="col-duration">7.94</td>
+          <td class="col-duration">10.98</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -555,7 +546,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/login/test_systemadmin_login.py::test_system_admin_login</td>
-          <td class="col-duration">10.89</td>
+          <td class="col-duration">13.46</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -564,7 +555,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/login/test_user_invalid_login.py::test_user_invalid_login</td>
-          <td class="col-duration">7.29</td>
+          <td class="col-duration">10.49</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -573,7 +564,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/login/test_user_login.py::test_user_login</td>
-          <td class="col-duration">9.08</td>
+          <td class="col-duration">11.99</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -582,7 +573,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/plays/test_available_plays.py::test_available_plays_enable_disable</td>
-          <td class="col-duration">48.10</td>
+          <td class="col-duration">52.61</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -591,7 +582,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/plays/test_cost_reduction_play.py::test_cost_reduction_play</td>
-          <td class="col-duration">54.51</td>
+          <td class="col-duration">33.87</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -600,7 +591,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/plays/test_design_review_play.py::test_design_review_play</td>
-          <td class="col-duration">180.45</td>
+          <td class="col-duration">157.53</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -609,8 +600,18 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
+          <td class="col-name">tests/plays/test_drawing_atlas_play.py::test_drawing_atlas_play</td>
+          <td class="col-duration">157.76</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>New downloaded file: [&#x27;SourceOptima_DrawingAtlas_0021-37445.xlsx&#x27;]
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
           <td class="col-name">tests/plays/test_drawing_checker_both_play.py::test_drawing_checker_both_play</td>
-          <td class="col-duration">56.18</td>
+          <td class="col-duration">43.57</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -620,7 +621,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/plays/test_drawing_checker_general_play.py::test_drawing_checker_general_play</td>
-          <td class="col-duration">64.40</td>
+          <td class="col-duration">47.47</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -631,7 +632,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/plays/test_drawing_checker_v2_play.py::test_drawing_checker_v2_play</td>
-          <td class="col-duration">65.84</td>
+          <td class="col-duration">55.29</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -641,19 +642,37 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
-          <td class="col-name">tests/plays/test_tariff_analysis_play.py::test_tariff_analysis_play</td>
-          <td class="col-duration">413.12</td>
+          <td class="col-name">tests/plays/test_drawing_checker_veeco_play.py::test_drawing_checker_veeco_play</td>
+          <td class="col-duration">44.67</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>Wizard handling skipped: Message: 
-
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>Drilldown buttons: 8
+Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
 <br/></div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
+          <td class="col-name">tests/plays/test_tariff_analysis_play.py::test_tariff_analysis_play</td>
+          <td class="col-duration">154.61</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/plays/test_weight_estimation_play.py::test_weight_estimation_play</td>
+          <td class="col-duration">34.21</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
           <td class="col-name">tests/project/test_create_new_project.py::test_create_new_project</td>
-          <td class="col-duration">41.68</td>
+          <td class="col-duration">22.76</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -662,7 +681,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/project/test_create_project.py::test_create_project</td>
-          <td class="col-duration">39.09</td>
+          <td class="col-duration">29.79</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -671,7 +690,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/project/test_delete_project.py::test_delete_project</td>
-          <td class="col-duration">52.27</td>
+          <td class="col-duration">25.89</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -680,7 +699,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/project/test_edit_space_details.py::test_edit_details</td>
-          <td class="col-duration">29.18</td>
+          <td class="col-duration">21.70</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -689,7 +708,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/project/test_search_file.py::test_search_file</td>
-          <td class="col-duration">45.56</td>
+          <td class="col-duration">27.12</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -698,7 +717,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/project/test_upload_new_file.py::test_upload_new_file</td>
-          <td class="col-duration">69.04</td>
+          <td class="col-duration">33.01</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -707,7 +726,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/project/test_upload_project.py::test_add_new_project</td>
-          <td class="col-duration">42.28</td>
+          <td class="col-duration">23.92</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -716,17 +735,17 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/reports/test_export_classification_to_excel.py::test_export_classification_to_excel</td>
-          <td class="col-duration">49.26</td>
+          <td class="col-duration">29.72</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>Downloaded: TestFile_1778067051_classification_2026-05-06.xlsx
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>Downloaded: TestFile_1780902112_classification_2026-06-08.xlsx
 <br/></div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/reports/test_export_credit_history.py::test_export_credit_history</td>
-          <td class="col-duration">20.89</td>
+          <td class="col-duration">20.61</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -735,7 +754,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/user_management/test_create_admin.py::test_create_admin</td>
-          <td class="col-duration">13.38</td>
+          <td class="col-duration">15.05</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -744,7 +763,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/user_management/test_create_systemadmin.py::test_create_systemadmin</td>
-          <td class="col-duration">12.34</td>
+          <td class="col-duration">15.03</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -753,7 +772,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/user_management/test_create_user.py::test_create_user</td>
-          <td class="col-duration">11.67</td>
+          <td class="col-duration">19.85</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -762,7 +781,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/user_management/test_duplicate_admin_creation.py::test_duplicate_admin_creation</td>
-          <td class="col-duration">14.67</td>
+          <td class="col-duration">25.71</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -771,7 +790,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/user_management/test_duplicate_systemadmin_creation.py::test_duplicate_systemadmin_creation</td>
-          <td class="col-duration">15.87</td>
+          <td class="col-duration">22.45</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -780,7 +799,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/user_management/test_duplicate_user_creation.py::test_duplicate_user_creation</td>
-          <td class="col-duration">17.04</td>
+          <td class="col-duration">21.02</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -789,7 +808,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/workspace/test_create_root_space.py::test_create_root_space</td>
-          <td class="col-duration">13.29</td>
+          <td class="col-duration">18.40</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -798,7 +817,7 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/workspace/test_create_sub_space.py::test_add_sub_space</td>
-          <td class="col-duration">20.43</td>
+          <td class="col-duration">23.81</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -807,9 +826,9 @@ Downloaded: [&#x27;Drawing_Checker_Report.pdf&#x27;]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/workspace/test_delete_root_space.py::test_delete_root_space</td>
-          <td class="col-duration">22.16</td>
+          <td class="col-duration">21.23</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log"> -----------------------------Captured stdout setup------------------------------ <br/>Alert text: Are you sure you want to delete &quot;TestSpace_1778067236&quot;?
+            <div class="log"> -----------------------------Captured stdout setup------------------------------ <br/>Alert text: Are you sure you want to delete &quot;TestSpace_1780902319&quot;?
 <br/></div></td></tr></tbody></table></body></html>

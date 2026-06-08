@@ -1,9 +1,8 @@
 import os
-import time
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
+
 
 class DrawingCheckerPage:
 
@@ -17,14 +16,14 @@ class DrawingCheckerPage:
     #     )
 
     # LOCATORS
-    dropdown = (By.XPATH, "//select[contains(@class,'text-sm')]")
+    dropdown = (By.XPATH, "//select[.//option[normalize-space()='Drawing Checker - Both']]")
     option = (By.XPATH, "//option[normalize-space()='Drawing Checker - Both']")
     run_btn = (By.XPATH, "//button[contains(text(),'Run Drawing Checker - Both')]")
     view_results = (By.XPATH, "//button[normalize-space()='View Results']")
     search_field = (By.XPATH, "//input[@id='issue-search']")
     dropdown_menu = (By.XPATH, "//select[@id='severity-filter']")
     dropdown_options = (By.XPATH, "//select[@id='source-filter']")
-    drilldown_btn = (By.XPATH, "//body/div[@class='container']/div[@class='section']/div[@class='issue-cards-container']/div[1]/div[7]/button[1]")
+    drilldown_btn = (By.XPATH, "//button[contains(@class,'drill') or contains(.,'Drill')]")
     view_details = (By.XPATH, "//button[normalize-space()='View Details']")
 
     popup_overlay = (By.XPATH, "//div[contains(@class,'fixed inset-0')]")
@@ -39,14 +38,14 @@ class DrawingCheckerPage:
     # ---------------- ACTIONS ----------------
 
     def select_drawing_checker(self):
-        self.wait.until(EC.element_to_be_clickable(self.dropdown)).click()
-        self.wait.until(EC.element_to_be_clickable(self.option)).click()
+        dropdown = self.wait.until(EC.element_to_be_clickable(self.dropdown))
+        Select(dropdown).select_by_visible_text("Drawing Checker - Both")
 
     def click_run(self):
         self.wait.until(EC.element_to_be_clickable(self.run_btn)).click()
 
     def wait_for_processing(self):
-        self.wait.until(EC.element_to_be_clickable(self.view_details))
+        self.wait.until(EC.element_to_be_clickable(self.view_results))
 
     def click_view_results(self):
         self.wait.until(EC.element_to_be_clickable(self.view_results)).click()
@@ -82,19 +81,11 @@ class DrawingCheckerPage:
 
     def filter_by_severity(self, severity):
         dropdown = self.wait.until(EC.element_to_be_clickable(self.dropdown_menu))
-        dropdown.click()
-        option = self.wait.until(EC.element_to_be_clickable(
-            (By.XPATH, f"//select[@id='severity-filter']/option[normalize-space()='{severity}']")
-        ))
-        option.click()
+        Select(dropdown).select_by_visible_text(severity)
 
     def filter_by_source(self, source):
         dropdown = self.wait.until(EC.element_to_be_clickable(self.dropdown_options))
-        dropdown.click()
-        option = self.wait.until(EC.element_to_be_clickable(
-            (By.XPATH, f"//select[@id='source-filter']/option[normalize-space()='{source}']")
-        ))
-        option.click()
+        Select(dropdown).select_by_visible_text(source)
 
     # def click_drilldown(self):
     #     self.wait.until(EC.element_to_be_clickable(self.drilldown_btn)).click()

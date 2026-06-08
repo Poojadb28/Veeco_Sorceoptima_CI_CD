@@ -1,0 +1,95 @@
+import os
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+
+
+class DrawingAtlasPage:
+
+    def __init__(self, driver):
+        self.driver = driver
+        self.wait = WebDriverWait(driver, 120)
+
+    # def wait_for_page_load(self):
+    #     self.wait.until(
+    #         lambda d: d.execute_script("return document.readyState") == "complete"
+    #     )
+
+    # LOCATORS
+    dropdown = (By.XPATH, "//select[contains(@class,'text-sm')]")
+    option = (By.XPATH, "//option[normalize-space()='Drawing Atlas']")
+    run_btn = (By.XPATH, "//button[contains(text(),'Run Drawing Atlas')]")
+    view_results = (By.XPATH, "//button[normalize-space()='View Results']")
+    view_details = (By.XPATH, "//button[normalize-space()='View Details']")
+    popup_overlay = (By.XPATH, "//div[contains(@class,'fixed inset-0')]")
+    download_btn = (By.XPATH, "//button[normalize-space()='Export Excel']")
+    close_icon = (By.XPATH, "//button[contains(@class,'p-2')]")
+
+    # ACTIONS
+
+    def select_design_review(self):
+        self.wait.until(EC.element_to_be_clickable(self.dropdown)).click()
+        self.wait.until(EC.element_to_be_clickable(self.option)).click()
+
+    def click_run(self):
+        self.wait.until(EC.element_to_be_clickable(self.run_btn)).click()
+
+    def wait_for_processing(self):
+        self.wait.until(EC.element_to_be_clickable(self.view_results))
+
+    def click_view_results(self):
+        self.wait.until(EC.element_to_be_clickable(self.view_results)).click()
+
+    def click_view_details(self):
+        self.wait.until(EC.element_to_be_clickable(self.view_details)).click()
+
+    def open_report_tab(self):
+        popup = self.wait.until(EC.visibility_of_element_located(self.popup_overlay))
+        tab = popup.find_element(By.XPATH, ".//button[normalize-space()='Drawing Atlas']")
+
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", tab)
+
+        try:
+            tab.click()
+        except:
+            ActionChains(self.driver).move_to_element(tab).click().perform()
+
+        # fallback
+        try:
+            self.wait.until(EC.presence_of_element_located(self.download_btn))
+        except:
+            self.driver.execute_script("arguments[0].click();", tab)
+
+  
+
+    def download_report(self, download_dir):
+
+        before_files = set(os.listdir(download_dir))
+
+        element = self.wait.until(EC.element_to_be_clickable(self.download_btn))
+        element.click()
+
+        import time
+        timeout = 120
+        end_time = time.time() + timeout
+
+        while time.time() < end_time:
+
+            after_files = set(os.listdir(download_dir))
+            new_files = after_files - before_files
+
+            completed_files = [f for f in new_files if not f.endswith(".crdownload")]
+
+            if any(f.endswith(".xlsx") for f in completed_files):
+                print("New downloaded file:", completed_files)
+                return
+            
+            time.sleep(2)
+
+        raise Exception("Download not detected")
+
+    def close_popup(self):
+        element = self.wait.until(EC.element_to_be_clickable(self.close_icon))
+        self.driver.execute_script("arguments[0].click();", element)
+        self.wait.until(EC.element_to_be_clickable(self.dropdown))

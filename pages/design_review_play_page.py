@@ -36,7 +36,7 @@ class DesignReviewPage:
         self.wait.until(EC.element_to_be_clickable(self.run_btn)).click()
 
     def wait_for_processing(self):
-        self.wait.until(EC.element_to_be_clickable(self.view_details))
+        self.wait.until(EC.element_to_be_clickable(self.view_results))
 
     def click_view_results(self):
         self.wait.until(EC.element_to_be_clickable(self.view_results)).click()
@@ -93,7 +93,7 @@ class DesignReviewPage:
             if any(f.endswith(".xlsx") for f in completed_files):
                 print("New downloaded file:", completed_files)
                 return
-
+            
             time.sleep(2)
 
         raise Exception("Download not detected")

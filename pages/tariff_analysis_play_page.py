@@ -1,8 +1,10 @@
 import os
+import time
 from utils.download_utils import wait_for_new_file
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 
 class TariffPage:
@@ -18,7 +20,7 @@ class TariffPage:
 
     # ---------------- LOCATORS ----------------
 
-    dropdown = (By.XPATH, "//select[contains(@class,'text-sm')]")
+    dropdown = (By.XPATH, "//select[.//option[normalize-space()='Tariff Analysis']]")
     tariff_option = (By.XPATH, "//option[normalize-space()='Tariff Analysis']")
     treat_checkbox = (By.XPATH, "//input[contains(@class,'w-4 h-4')]")
     set_top = (By.XPATH, "//button[normalize-space()='Set as Top Level']")
@@ -27,7 +29,7 @@ class TariffPage:
     # Separate export buttons
     bom_export_btn = (By.XPATH, "(//button[normalize-space()='Export to Excel'])[1]")
     # tariff_export_btn = (By.XPATH, "(//button[normalize-space()='Export to Excel'])[2]")
-    tariff_export_btn = (By.XPATH,"//button[contains(.,'Export to Excel')][last()]")
+    tariff_export_btn = (By.XPATH, "(//button[contains(.,'Export to Excel')])[last()]")
 
     approve_bom_btn = (By.XPATH, "//span[normalize-space()='Approve BOM']")
     tariff_heading = (By.XPATH, "//h2[contains(text(),'Tariff Analysis')]")
@@ -38,8 +40,8 @@ class TariffPage:
     # ---------------- ACTIONS ----------------
 
     def select_tariff_analysis(self):
-        self.wait.until(EC.element_to_be_clickable(self.dropdown)).click()
-        self.wait.until(EC.element_to_be_clickable(self.tariff_option)).click()
+        dropdown = self.wait.until(EC.element_to_be_clickable(self.dropdown))
+        Select(dropdown).select_by_visible_text("Tariff Analysis")
 
     def treat_as_assembly(self):
         checkbox = self.wait.until(EC.presence_of_element_located(self.treat_checkbox))
@@ -67,20 +69,23 @@ class TariffPage:
 
     def approve_bom(self):
 
+        old_buttons = self.driver.find_elements(*self.bom_export_btn)
         element = self.wait.until(EC.element_to_be_clickable(self.approve_bom_btn))
         self.driver.execute_script("arguments[0].click();", element)
 
-        # Wait until old element becomes stale (VERY IMPORTANT)
-        old_button = self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, "//button[normalize-space()='Export to Excel']")
-        ))
+        if old_buttons:
+            try:
+                WebDriverWait(self.driver, 15).until(EC.staleness_of(old_buttons[0]))
+            except TimeoutException:
+                pass
 
-        self.wait.until(EC.staleness_of(old_button))
+        self.wait.until(EC.invisibility_of_element_located(self.approve_bom_btn))
 
-        # Now wait for new export button
-        self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, "//button[normalize-space()='Export to Excel']")
-        ))
+        self.wait.until(
+            lambda d:
+                d.find_elements(By.XPATH, "//button[normalize-space()='Continue']")
+                or len(d.find_elements(By.XPATH, "//button[contains(.,'Export to Excel')]")) > 1
+        )
    
 
     # def export_bom(self, download_dir):
@@ -218,35 +223,36 @@ class TariffPage:
 
     def complete_hts_wizard(self):
 
-        import time
+        
 
         try:
             # Loop to handle multiple steps (important)
             for _ in range(5):
 
-                # check if wizard present
-                wizard = self.driver.find_elements(
-                    By.XPATH, "//*[contains(text(),'nature of the imported good')]"
-                )
+                continue_buttons = [
+                    btn for btn in self.driver.find_elements(By.XPATH, "//button[normalize-space()='Continue']")
+                    if btn.is_displayed()
+                ]
 
-                # if not wizard:
-                #     print("Wizard completed fully")
-                #     return
+                if not continue_buttons:
+                    return
 
-                # click visible option (label is safer than input)
-                options = self.driver.find_elements(
-                    By.XPATH, "//label"
-                )
+                options = self.driver.find_elements(By.XPATH, "//label[.//input[@type='radio'] or .//span or .//div]")
 
                 for opt in options:
                     if opt.is_displayed():
                         self.driver.execute_script("arguments[0].click();", opt)
                         break
 
-                # click Continue
-                continue_btn = self.wait.until(EC.element_to_be_clickable(
-                    (By.XPATH, "//button[normalize-space()='Continue']")
-                ))
+                continue_btn = self.wait.until(
+                    lambda d: next(
+                        (
+                            btn for btn in d.find_elements(By.XPATH, "//button[normalize-space()='Continue']")
+                            if btn.is_displayed() and btn.is_enabled()
+                        ),
+                        False
+                    )
+                )
                 self.driver.execute_script("arguments[0].click();", continue_btn)
 
                 time.sleep(2)
@@ -366,10 +372,23 @@ class TariffPage:
 
         before_files = set(os.listdir(download_dir))
 
-        # Step 2: Wait for export button
+        # Step 2: Wait for wizard completion and export availability
+        self.wait.until(
+            lambda d: not any(
+                btn.is_displayed()
+                for btn in d.find_elements(By.XPATH, "//button[normalize-space()='Continue']")
+            )
+        )
+
         button = self.wait.until(
-            lambda d: d.find_elements(*self.tariff_export_btn)
-        )[-1]
+            lambda d: next(
+                (
+                    btn for btn in d.find_elements(By.XPATH, "//button[contains(.,'Export to Excel')]")
+                    if btn.is_displayed() and btn.is_enabled()
+                ),
+                False
+            )
+        )
 
         # Step 3: Scroll
         self.driver.execute_script(

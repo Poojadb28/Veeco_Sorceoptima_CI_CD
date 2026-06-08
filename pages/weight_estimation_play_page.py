@@ -1,5 +1,4 @@
 import os
-import time
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -10,15 +9,17 @@ class WeightEstimationPage:
 
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 500)
+        self.wait = WebDriverWait(driver, 600)
 
     # ---------------- LOCATORS ----------------
 
     dropdown = (By.XPATH,"//select[contains(@class,'text-sm')]")
     weight_option = (By.XPATH,"//option[normalize-space()='Weight Estimation']")
     run_btn = (By.XPATH,"//button[contains(normalize-space(),'Run Weight Estimation')]")
-    view_results_btn = (By.XPATH,"//button[normalize-space()='View Results']")
-    view_details = (By.XPATH,"//button[normalize-space()='View Details']")
+    # view_results_btn = (By.XPATH,"//button[normalize-space()='View Results']")
+    # view_details = (By.XPATH,"//button[normalize-space()='View Details']")
+    view_results = (By.XPATH, "//button[normalize-space()='View Results']")
+    view_details = (By.XPATH, "//button[normalize-space()='View Details']")
     report_tab = (By.XPATH,"//button[normalize-space()='Weight Estimation']")
     popup_overlay = (By.XPATH,"//div[contains(@class,'fixed inset-0')]")
     close_icon = (By.XPATH,"//button[contains(@class,'p-2')]")
@@ -40,43 +41,52 @@ class WeightEstimationPage:
     #     self.wait.until(EC.element_to_be_clickable(self.view_results_btn))
 
     def wait_for_processing(self):
-
-        self.wait.until(
-            EC.visibility_of_element_located(
-                self.view_results_btn
-            )
-        )
+        self.wait.until(EC.element_to_be_clickable(self.view_results))
 
     def click_view_results(self):
-        # Wait page fully loaded
-        self.wait.until(lambda d: d.execute_script("return document.readyState") == "complete")
-
-        # Wait until clickable
-        self.wait.until(EC.element_to_be_clickable(self.view_results_btn))
-
-        # Fresh element
-        element = self.driver.find_element(*self.view_results_btn)
-
-        self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});",element)
-        self.driver.execute_script("arguments[0].click();",element)
+        self.wait.until(EC.element_to_be_clickable(self.view_results)).click()
 
     def click_view_details(self):
+        self.wait.until(EC.element_to_be_clickable(self.view_details)).click()
 
-        self.wait.until(
-            EC.element_to_be_clickable(self.view_details)
-        )
+    # def wait_for_processing(self):
 
-        element = self.driver.find_element(*self.view_details)
+    #     self.wait.until(
+    #         EC.visibility_of_element_located(
+    #             self.view_results_btn
+    #         )
+    #     )
 
-        self.driver.execute_script(
-            "arguments[0].scrollIntoView({block:'center'});",
-            element
-        )
+    # def click_view_results(self):
+    #     # Wait page fully loaded
+    #     self.wait.until(lambda d: d.execute_script("return document.readyState") == "complete")
 
-        self.driver.execute_script(
-            "arguments[0].click();",
-            element
-        )
+    #     # Wait until clickable
+    #     self.wait.until(EC.element_to_be_clickable(self.view_results_btn))
+
+    #     # Fresh element
+    #     element = self.driver.find_element(*self.view_results_btn)
+
+    #     self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});",element)
+    #     self.driver.execute_script("arguments[0].click();",element)
+
+    # def click_view_details(self):
+
+    #     self.wait.until(
+    #         EC.element_to_be_clickable(self.view_details)
+    #     )
+
+    #     element = self.driver.find_element(*self.view_details)
+
+    #     self.driver.execute_script(
+    #         "arguments[0].scrollIntoView({block:'center'});",
+    #         element
+    #     )
+
+    #     self.driver.execute_script(
+    #         "arguments[0].click();",
+    #         element
+    #     )
 
     def wait_for_report_tab(self):
 

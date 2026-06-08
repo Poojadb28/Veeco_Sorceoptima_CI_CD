@@ -29,11 +29,12 @@ def wait_for_new_file(download_dir, before_files, extension=None, timeout=60):
                 continue
 
             # Ensure file is fully written (size stable)
-            size1 = os.path.getsize(file_path)
-            time.sleep(1)
-            if not os.path.exists(file_path):
+            try:
+                size1 = os.path.getsize(file_path)
+                time.sleep(1)
+                size2 = os.path.getsize(file_path)
+            except FileNotFoundError:
                 continue
-            size2 = os.path.getsize(file_path)
 
             if size1 == size2:
                 return file_path

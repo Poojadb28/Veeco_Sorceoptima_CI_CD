@@ -132,6 +132,7 @@ class SystemAdminPage:
         self.wait.until(lambda d: element.text.strip() != "")
 
         return element.text.strip()
+
     
 
     def get_enable_message(self):

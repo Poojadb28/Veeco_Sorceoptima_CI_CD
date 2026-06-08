@@ -193,7 +193,7 @@ class CostReductionPage:
         self.wait.until(EC.element_to_be_clickable(self.run_button)).click()
 
     def wait_for_processing(self):
-        self.wait.until(EC.element_to_be_clickable(self.view_details))
+        self.wait.until(EC.element_to_be_clickable(self.view_results))
 
     def click_view_results(self):
         self.wait.until(EC.element_to_be_clickable(self.view_results)).click()

@@ -18,7 +18,7 @@ class DrawingCheckerV2Page:
 
     # ---------------- LOCATORS ---------------- #
 
-    dropdown = (By.XPATH, "//select[contains(@class,'text-sm')]")
+    dropdown = (By.XPATH, "//select[.//option[normalize-space()='Drawing Checker V2']]")
     option = (By.XPATH, "//option[normalize-space()='Drawing Checker V2']")
     run_btn = (By.XPATH, "//button[contains(text(),'Run Drawing Checker V2')]")
     view_results = (By.XPATH, "//button[normalize-space()='View Results']")
@@ -45,8 +45,8 @@ class DrawingCheckerV2Page:
     #     select.select_by_visible_text("Drawing Checker - V2")
 
     def select_drawing_checker(self):
-        self.wait.until(EC.element_to_be_clickable(self.dropdown)).click()
-        self.wait.until(EC.element_to_be_clickable(self.option)).click()
+        dropdown = self.wait.until(EC.element_to_be_clickable(self.dropdown))
+        Select(dropdown).select_by_visible_text("Drawing Checker V2")
 
 
     def click_run(self):
@@ -113,6 +113,7 @@ class DrawingCheckerV2Page:
 
                 # wait for UI update
                 time.sleep(3)
+
 
                 return
 

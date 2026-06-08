@@ -16,7 +16,10 @@ def test_drawing_checker_both_play(drawing_checker_both_play):
 
     # ================= FILTER =================
     drawing.filter_by_severity("Critical")
+    drawing.filter_by_severity("All Severities")
+
     drawing.filter_by_source("Veeco Standards")
+    drawing.filter_by_source("All Sources")
 
     # ================= DRILLDOWN =================
     drawing.click_drilldown()

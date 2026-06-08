@@ -4,14 +4,16 @@ import os
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import StaleElementReferenceException
 
 
 class ProjectPage:
 
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 30)
+        self.wait = WebDriverWait(driver, 60)
 
     def safe_click(self, element):
         self.driver.execute_script(
@@ -25,30 +27,92 @@ class ProjectPage:
         )
 
     def click_projects(self):
-        self.wait.until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Projects']"))).click()
+        self.wait.until(lambda d: d.execute_script("return document.readyState") == "complete")
+        projects = self.wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, "//span[normalize-space()='Projects']/ancestor::*[self::a or self::button][1]")
+            )
+        )
+        self.safe_click(projects)
+        self.wait.until(lambda d: d.execute_script("return document.readyState") == "complete")
+
 
     # def right_click_on_canvas(self):
-    #     page_body = self.wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class,'flex-1 overflow-auto p-8 relative')]")))
-    #     ActionChains(self.driver).move_to_element(page_body).context_click(page_body).perform()
+
+    #     canvas = self.wait.until(EC.presence_of_element_located(
+    #         (By.XPATH, "//div[contains(@class,'flex-1')]")
+    #     ))
+
+    #     self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", canvas)
+
+    #     ActionChains(self.driver)\
+    #         .move_to_element(canvas)\
+    #         .pause(1)\
+    #         .context_click(canvas)\
+    #         .perform()
+
+    #     # VERY IMPORTANT: wait for menu to appear
+    #     self.wait.until(EC.visibility_of_element_located(
+    #         (By.XPATH, "//*[contains(text(),'New Root Space')]")
+    #     ))
 
     def right_click_on_canvas(self):
 
-        canvas = self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, "//div[contains(@class,'flex-1')]")
-        ))
+        # Wait page fully loaded
+        self.wait.until(
+            lambda d: d.execute_script(
+                "return document.readyState"
+            ) == "complete"
+        )
 
-        self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", canvas)
+        # Wait canvas/workspace present
+        canvas = self.wait.until(
+            lambda d: next(
+                (
+                    el for locator in [
+                        (By.XPATH, "//div[contains(@class,'flex-1')]"),
+                        (By.XPATH, "//main"),
+                        (By.XPATH, "//div[contains(@class,'h-full') and .//*[normalize-space()='Projects']]")
+                    ]
+                    for el in d.find_elements(*locator)
+                    if el.is_displayed()
+                ),
+                False
+            )
+        )
 
+        # Wait canvas visible
+        self.wait.until(
+            EC.visibility_of(canvas)
+        )
+
+        # Wait canvas clickable/stable
+        self.wait.until(lambda d: canvas.is_displayed() and canvas.size["height"] > 0)
+
+        # Scroll to canvas
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});",
+            canvas
+        )
+
+        # Small stabilization pause
+        time.sleep(1)
+
+
+        # Right click
         ActionChains(self.driver)\
             .move_to_element(canvas)\
             .pause(1)\
             .context_click(canvas)\
             .perform()
 
-        # VERY IMPORTANT: wait for menu to appear
-        self.wait.until(EC.visibility_of_element_located(
-            (By.XPATH, "//*[contains(text(),'New Root Space')]")
-        ))
+        # Wait menu visible
+        self.wait.until(
+            EC.visibility_of_element_located(
+                (By.XPATH,
+                "//*[contains(text(),'New Root Space')]")
+            )
+        )
 
     
     # def click_new_root_space(self):
@@ -157,8 +221,8 @@ class ProjectPage:
 
 
     def click_add_sub_space(self):
-        import time
-        time.sleep(2)  # wait for context menu
+        
+        time.sleep(2)
 
         elements = self.driver.find_elements(By.XPATH, "//*[contains(text(),'Add Sub')]")
 
@@ -219,7 +283,7 @@ class ProjectPage:
 
 
     def click_delete_space(self):
-        import time
+        
         time.sleep(2)
 
         elements = self.driver.find_elements(By.XPATH, "//*[contains(text(),'Delete')]")
@@ -233,7 +297,6 @@ class ProjectPage:
 
 
     def confirm_delete_space(self):
-        from selenium.webdriver.common.alert import Alert
 
         # wait for alert
         alert = WebDriverWait(self.driver, 10).until(EC.alert_is_present())
@@ -273,7 +336,6 @@ class ProjectPage:
 
 
     def upload_file(self, file_path):
-        import os
 
         file_path = os.path.abspath(file_path)
 
@@ -292,7 +354,6 @@ class ProjectPage:
             (By.XPATH, "//button[normalize-space()='Upload']")
         ))
         self.driver.execute_script("arguments[0].click();", btn)
-        self.wait_for_processing_complete()
 
 
     def create_project(self, name, file_path):
@@ -531,12 +592,36 @@ class ProjectPage:
 
     def wait_for_processing_complete(self):
 
-        # wait for overlay to disappear
-        self.wait.until(
-            EC.invisibility_of_element_located(
-                (By.XPATH, "//div[contains(@class,'fixed inset-0')]")
+        def processing_done(driver):
+            blocking_text = driver.find_elements(
+                By.XPATH,
+                "//*[contains(translate(normalize-space(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'processing') "
+                "or contains(translate(normalize-space(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'uploading')]"
             )
-        )
+
+            try:
+                visible_blocking_text = [
+                    el for el in blocking_text
+                    if el.is_displayed()
+                ]
+            except StaleElementReferenceException:
+                return False
+
+            if visible_blocking_text:
+                return False
+
+            upload_buttons = driver.find_elements(By.XPATH, "//button[normalize-space()='Upload']")
+            try:
+                visible_upload_buttons = [
+                    btn for btn in upload_buttons
+                    if btn.is_displayed()
+                ]
+            except StaleElementReferenceException:
+                return False
+
+            return len(visible_upload_buttons) == 0
+
+        self.wait.until(processing_done)
 
     def click_delete_project(self):
 
@@ -771,7 +856,7 @@ class ProjectPage:
             "arguments[0].scrollIntoView({block:'center'});", btn
         )
 
-        import time
+        
         time.sleep(1)
 
         self.driver.execute_script("arguments[0].click();", btn)
@@ -779,7 +864,6 @@ class ProjectPage:
 
     def wait_for_classification_download(self, download_dir, timeout=60):
 
-        import time
         end_time = time.time() + timeout
 
         while time.time() < end_time:
@@ -789,7 +873,11 @@ class ProjectPage:
             for f in files:
                 file_lower = f.lower()
 
-                if "classification" in file_lower and file_lower.endswith(".xlsx"):
+                if (
+                    "classification" in file_lower
+                    and file_lower.endswith(".xlsx")
+                    and not file_lower.endswith((".crdownload", ".tmp"))
+                ):
                     print("Downloaded:", f)
                     return True
 
