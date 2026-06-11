@@ -14,7 +14,7 @@ def drawing_atlas_play(browser):
     login.login("prekshita@sourceoptima.com", "aspl1234")
 
     project = ProjectPage(browser)
-    design = DrawingAtlasPage(browser)
+    drawing_atlas_play = DrawingAtlasPage(browser)
 
     # Open Projects
     project.click_projects()
@@ -36,7 +36,7 @@ def drawing_atlas_play(browser):
     # ================= PROJECT =================
     project_name = f"TestFile_{int(time.time())}"
 
-    file_path = os.path.abspath("testdata/files/0194.pdf")
+    file_path = os.path.abspath("testdata/files/0184.pdf")
 
     if not os.path.exists(file_path):
         raise Exception(f"File not found: {file_path}")
@@ -54,9 +54,9 @@ def drawing_atlas_play(browser):
     # IMPORTANT FIX (Select All button)
     project.select_all_files()
 
-    # ================= DESIGN REVIEW =================
-    design.select_design_review()
-    design.click_run()
-    design.wait_for_processing()
+    # ================= DRAWING ATLAS =================
+    drawing_atlas_play.select_drawing_atlas()
+    drawing_atlas_play.click_run()
+    drawing_atlas_play.wait_for_processing()
 
-    return design
+    return drawing_atlas_play

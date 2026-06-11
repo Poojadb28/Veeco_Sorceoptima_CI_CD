@@ -22,7 +22,8 @@ def available_plays(browser):
         "Drawing Checker - Veeco",
         "Drawing Checker - General",
         "Drawing Checker V2",
-        "Weight Estimation"
+        "Weight Estimation",
+        "Drawing Atlas"
     ]
 
     return admin, play_name

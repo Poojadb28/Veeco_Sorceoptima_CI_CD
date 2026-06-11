@@ -1,4 +1,5 @@
 import os
+import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -9,7 +10,7 @@ class DrawingAtlasPage:
 
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 120)
+        self.wait = WebDriverWait(driver, 180)
 
 
     # LOCATORS
@@ -24,15 +25,36 @@ class DrawingAtlasPage:
 
     # ACTIONS
 
-    def select_design_review(self):
+    def select_drawing_atlas(self):
         self.wait.until(EC.element_to_be_clickable(self.dropdown)).click()
         self.wait.until(EC.element_to_be_clickable(self.option)).click()
 
     def click_run(self):
         self.wait.until(EC.element_to_be_clickable(self.run_btn)).click()
 
+    # def wait_for_processing(self):
+    #     self.wait.until(EC.element_to_be_clickable(self.view_results))
+
     def wait_for_processing(self):
-        self.wait.until(EC.element_to_be_clickable(self.view_results))
+
+        timeout = time.time() + 1800  # 30 minutes
+
+        while time.time() < timeout:
+
+            elements = self.driver.find_elements(
+                By.XPATH,
+                "//button[contains(.,'View Results')]"
+            )
+
+            if elements and elements[0].is_displayed():
+                print("Processing completed")
+                return
+
+            time.sleep(30)
+
+        raise Exception(
+            "Drawing Atlas processing did not complete within 30 minutes"
+        )
 
     def click_view_results(self):
         self.wait.until(EC.element_to_be_clickable(self.view_results)).click()
