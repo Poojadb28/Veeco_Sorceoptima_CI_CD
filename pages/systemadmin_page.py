@@ -76,26 +76,44 @@ class SystemAdminPage:
         return self.get_text(self.DISABLE_MSG)
     
 
+    # def wait_for_disable_message(self):
+
+    #     element = self.wait.until(
+    #         EC.visibility_of_element_located(self.DISABLE_MSG)
+    #     )
+
+    #     # wait until text is actually populated
+    #     self.wait.until(lambda d: element.text.strip() != "")
+
+    #     return element.text.strip()
+
     def wait_for_disable_message(self):
 
-        element = self.wait.until(
-            EC.visibility_of_element_located(self.DISABLE_MSG)
+        return self.wait.until(
+            lambda d: d.find_element(
+                By.XPATH,
+                "//*[contains(text(),'disabled') and not(contains(@style,'display: none'))]"
+            ).text.strip()
         )
 
-        # wait until text is actually populated
-        self.wait.until(lambda d: element.text.strip() != "")
+    # def wait_for_enable_message(self):
 
-        return element.text.strip()
+    #     element = self.wait.until(
+    #         EC.visibility_of_element_located(self.ENABLE_MSG)
+    #     )
+
+    #     self.wait.until(lambda d: element.text.strip() != "")
+
+    #     return element.text.strip()
 
     def wait_for_enable_message(self):
 
-        element = self.wait.until(
-            EC.visibility_of_element_located(self.ENABLE_MSG)
+        return self.wait.until(
+            lambda d: d.find_element(
+                By.XPATH,
+                "//*[contains(text(),'enabled') and not(contains(@style,'display: none'))]"
+            ).text.strip()
         )
-
-        self.wait.until(lambda d: element.text.strip() != "")
-
-        return element.text.strip()
 
 
     def get_enable_message(self):
