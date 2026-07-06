@@ -1064,23 +1064,38 @@ class ProjectPage:
 
     # ================= EXCEL DOWNLOAD ================= #
 
+    # def wait_for_excel_download(self, download_dir, timeout=60):
+
+    #     end_time = time.time() + timeout
+
+    #     while time.time() < end_time:
+
+    #         files = os.listdir(download_dir)
+
+    #         for file in files:
+    #             if (
+    #                 file.endswith(".xlsx")
+    #                 and not file.endswith(".crdownload")
+    #             ):
+    #                 print("Excel downloaded:", file)
+    #                 return True
+
+    #         time.sleep(1)
+
+    #     raise Exception("Excel report was not downloaded")
+
     def wait_for_excel_download(self, download_dir, timeout=60):
+
+        os.makedirs(download_dir, exist_ok=True)
 
         end_time = time.time() + timeout
 
         while time.time() < end_time:
-
             files = os.listdir(download_dir)
 
             for file in files:
-                if (
-                    file.endswith(".xlsx")
-                    and not file.endswith(".crdownload")
-                ):
-                    print("Excel downloaded:", file)
+                if file.endswith(".xlsx") and not file.endswith(".crdownload"):
                     return True
-
-            time.sleep(1)
 
         raise Exception("Excel report was not downloaded")
 
@@ -1101,23 +1116,38 @@ class ProjectPage:
 
     # ================= CSV DOWNLOAD ================= #
 
+    # def wait_for_csv_download(self, download_dir, timeout=60):
+
+    #     end_time = time.time() + timeout
+
+    #     while time.time() < end_time:
+
+    #         files = os.listdir(download_dir)
+
+    #         for file in files:
+    #             if (
+    #                 file.endswith(".csv")
+    #                 and not file.endswith(".crdownload")
+    #             ):
+    #                 print("CSV downloaded:", file)
+    #                 return True
+
+    #         time.sleep(1)
+
+    #     raise Exception("CSV report was not downloaded")
+
     def wait_for_csv_download(self, download_dir, timeout=60):
+
+        os.makedirs(download_dir, exist_ok=True)
 
         end_time = time.time() + timeout
 
         while time.time() < end_time:
-
             files = os.listdir(download_dir)
 
             for file in files:
-                if (
-                    file.endswith(".csv")
-                    and not file.endswith(".crdownload")
-                ):
-                    print("CSV downloaded:", file)
+                if file.endswith(".csv") and not file.endswith(".crdownload"):
                     return True
-
-            time.sleep(1)
 
         raise Exception("CSV report was not downloaded")
 

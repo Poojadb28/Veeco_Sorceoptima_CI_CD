@@ -6,7 +6,8 @@ def test_reports_builder(reports_builder_fixture):
 
     project = reports_builder_fixture
 
-    download_dir = os.path.join(os.path.expanduser("~"), "Downloads")
+    # download_dir = os.path.join(os.path.expanduser("~"), "Downloads")
+    download_dir = os.path.join(os.getcwd(), "downloads")
 
     # Save Template
     template_name = f"Template_{int(time.time())}"
