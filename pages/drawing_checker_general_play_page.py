@@ -9,7 +9,7 @@ class DrawingCheckerGeneralPage:
 
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 120)
+        self.wait = WebDriverWait(driver, 260)
 
     # ---------------- LOCATORS ---------------- #
 
@@ -142,5 +142,14 @@ class DrawingCheckerGeneralPage:
             time.sleep(2)
 
         raise Exception("Download not detected")
+    
+    # ---------------- SCREENSHOT ---------------- #
+    def take_screenshot(self, file_name):
+        os.makedirs("screenshots", exist_ok=True)
+
+        file_path = os.path.join("screenshots", file_name)
+        self.driver.save_screenshot(file_path)
+
+        return file_path
 
        

@@ -75,13 +75,22 @@ class WeightEstimationPage:
             lambda d: "Weight Estimation" in d.page_source
         )
 
-    def take_screenshot(self):
+    # def take_screenshot(self):
 
+    #     os.makedirs("screenshots", exist_ok=True)
+
+    #     self.driver.save_screenshot(
+    #         "screenshots/Weight_Estimation_Report.png"
+    #     )
+
+     # ---------------- SCREENSHOT ---------------- #
+    def take_screenshot(self, file_name):
         os.makedirs("screenshots", exist_ok=True)
 
-        self.driver.save_screenshot(
-            "screenshots/Weight_Estimation_Report.png"
-        )
+        file_path = os.path.join("screenshots", file_name)
+        self.driver.save_screenshot(file_path)
+
+        return file_path
 
     def close_popup(self):
 

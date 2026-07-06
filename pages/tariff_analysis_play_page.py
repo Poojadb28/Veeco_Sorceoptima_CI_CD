@@ -11,7 +11,7 @@ class TariffPage:
 
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 180)
+        self.wait = WebDriverWait(driver, 280)
 
     # ---------------- LOCATORS ----------------
 
@@ -138,10 +138,6 @@ class TariffPage:
         # time.sleep(5)
 
     def wait_for_processing_complete(self):
-
-        from selenium.webdriver.common.by import By
-        from selenium.webdriver.support import expected_conditions as EC
-
      
             # Wait until any loader disappears
         self.wait.until_not(EC.presence_of_element_located(
@@ -197,4 +193,22 @@ class TariffPage:
     def go_back(self):
         self.wait.until(EC.element_to_be_clickable(self.back_project)).click()
         self.wait.until(EC.element_to_be_clickable(self.back_btn)).click()
+
+    #click view results button
+    def click_view_results(self):
+        view_results = (
+            By.XPATH,
+            "//button[contains(.,'View Results')]"
+        )
+
+        element = self.wait.until(
+            EC.element_to_be_clickable(view_results)
+        )
+
+        self.driver.execute_script(
+            "arguments[0].click();",
+            element
+        )
+    def take_screenshot(self, file_path):
+        self.driver.save_screenshot(file_path)
         

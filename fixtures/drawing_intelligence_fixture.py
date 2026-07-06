@@ -83,6 +83,7 @@ def drawing_intelligence(browser):
     drawing_intelligence_page.search_part("6001.pdf")
     drawing_intelligence_page.take_screenshot("search_6001_pdf")
     drawing_intelligence_page.refresh_page()
+    time.sleep(2)  # wait for page refresh
 
     # Drawing Type - Detail
     drawing_intelligence_page.apply_filter("//label[contains(.,'Detail')]//input[@type='checkbox']", "Detail")

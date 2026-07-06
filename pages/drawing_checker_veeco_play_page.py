@@ -9,7 +9,7 @@ class DrawingCheckerVeecoPage:
 
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 120)
+        self.wait = WebDriverWait(driver, 280)
 
     # ---------------- LOCATORS ---------------- #
     dropdown = (By.XPATH, "//select[.//option[normalize-space()='Drawing Checker - Veeco']]")
@@ -145,3 +145,12 @@ class DrawingCheckerVeecoPage:
             time.sleep(2)
 
         raise Exception("Veeco report download failed")
+    
+    # ---------------- SCREENSHOT ---------------- #
+    def take_screenshot(self, file_name):
+        os.makedirs("screenshots", exist_ok=True)
+
+        file_path = os.path.join("screenshots", file_name)
+        self.driver.save_screenshot(file_path)
+
+        return file_path

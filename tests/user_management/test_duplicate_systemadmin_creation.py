@@ -18,4 +18,4 @@ def test_duplicate_systemadmin_creation(duplicate_systemadmin_creation):
 
     error_msg = user_page.get_duplicate_error()
 
-    assert "Failed to create user" in error_msg
+    assert "user with this Email already exists." in error_msg

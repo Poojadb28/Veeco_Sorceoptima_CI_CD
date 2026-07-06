@@ -6,4 +6,4 @@ from selenium.webdriver.support import expected_conditions as EC
 def test_user_invalid_login(invalid_user_login):
     error_msg = invalid_user_login.get_error_message()
 
-    assert "Error" in error_msg
+    assert "Invalid password. Please try again." in error_msg

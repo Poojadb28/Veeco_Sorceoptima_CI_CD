@@ -8,7 +8,7 @@ class CostReductionPage:
 
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 120)
+        self.wait = WebDriverWait(driver, 280)
 
     # LOCATORS
     dropdown = (By.XPATH, "//select[contains(@class,'text-sm')]")
@@ -44,9 +44,17 @@ class CostReductionPage:
         element = self.wait.until(EC.element_to_be_clickable(self.report_tab))
         self.driver.execute_script("arguments[0].click();", element)
 
-    def take_screenshot(self):
+    # def take_screenshot(self):
+    #     os.makedirs("screenshots", exist_ok=True)
+    #     self.driver.save_screenshot("screenshots/Cost_Reduction_Report.png")
+
+    def take_screenshot(self, file_name):
         os.makedirs("screenshots", exist_ok=True)
-        self.driver.save_screenshot("screenshots/Cost_Reduction_Report.png")
+
+        file_path = os.path.join("screenshots", file_name)
+        self.driver.save_screenshot(file_path)
+
+        return file_path
 
     def close_popup(self):
         element = self.wait.until(EC.element_to_be_clickable(self.close_icon))

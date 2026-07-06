@@ -14,7 +14,8 @@ class LoginPage:
         )
 
     def open_url(self):
-        self.driver.get("https://testing.sourceoptima.com/")
+        # self.driver.get("https://testing.sourceoptima.com/")
+        self.driver.get("https://testing-so.sourceoptima.com/")
 
     def click_login(self):
         self.wait.until(EC.element_to_be_clickable((By.XPATH, "//a[normalize-space()='Login']"))).click()
@@ -53,7 +54,8 @@ class LoginPage:
     # invalid system admin login error message
     def get_error_message(self):
         return self.wait.until(
-            EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'Error during login')]"))).text
+            EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'Invalid password. Please try again.')]"))).text
+
     
     # Logout method
     def click_logout(self):

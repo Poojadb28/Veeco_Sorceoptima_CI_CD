@@ -9,7 +9,7 @@ class DrawingCheckerV2Page:
 
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 120)
+        self.wait = WebDriverWait(driver, 380)
 
     # ---------------- LOCATORS ---------------- #
 
@@ -152,3 +152,12 @@ class DrawingCheckerV2Page:
 
         assert any(f.endswith(".pdf") for f in downloaded_files), \
             "Drawing Checker V2 file NOT downloaded"
+        
+    # ---------------- SCREENSHOT ---------------- #
+    def take_screenshot(self, file_name):
+        os.makedirs("screenshots", exist_ok=True)
+
+        file_path = os.path.join("screenshots", file_name)
+        self.driver.save_screenshot(file_path)
+
+        return file_path

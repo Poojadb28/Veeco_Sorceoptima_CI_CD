@@ -1,3 +1,4 @@
+import os
 import pytest
 
 
@@ -21,5 +22,11 @@ def test_cost_reduction_play(cost_reduction_play):
         ) == "complete"
     )
 
-    cost.take_screenshot()
+    # cost.take_screenshot()
+
+    screenshot_path = cost.take_screenshot("Cost_Reduction_Report.png")
+
+    assert os.path.exists(screenshot_path)
+    assert os.path.getsize(screenshot_path) > 0
+    
     cost.close_popup()

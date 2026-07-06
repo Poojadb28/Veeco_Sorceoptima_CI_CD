@@ -1,3 +1,4 @@
+import os
 import pytest
 
 
@@ -14,9 +15,20 @@ def test_weight_estimation_play(weight_estimation_play):
 
     weight_estimation.open_report_tab()
 
-    # Wait report fully loaded
-    weight_estimation.wait_for_report_loaded()
+    # Wait page fully loaded
+    weight_estimation.wait.until(
+        lambda d: d.execute_script(
+            "return document.readyState"
+        ) == "complete"
+    )
 
-    weight_estimation.take_screenshot()
+    # cost.take_screenshot()
 
+    screenshot_path = weight_estimation.take_screenshot("Weight_Estimation_Report.png")
+
+    assert os.path.exists(screenshot_path)
+    assert os.path.getsize(screenshot_path) > 0
+    
     weight_estimation.close_popup()
+
+   

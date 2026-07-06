@@ -1,0 +1,2 @@
+Drilldown buttons found: 7
+Downloaded: ['Drawing_Checker_Report.pdf']

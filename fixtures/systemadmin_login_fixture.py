@@ -13,8 +13,8 @@ def invalid_login(browser):
     login = LoginPage(browser)
     login.open_url()
     login.click_login()
-    login.enter_email("pooja@gmail")  
-    login.enter_password("aspl@1234")
+    login.enter_email("prekshita@sourceoptima.com")   # valid email
+    login.enter_password("aspl@1234")# invalid password
     login.click_submit()
     return login
 

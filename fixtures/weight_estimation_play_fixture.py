@@ -46,7 +46,7 @@ def weight_estimation_play(browser):
     # =========================
     project_name = f"TestFile_{int(time.time())}"
 
-    file_path = os.path.abspath("testdata/files/0194.pdf")
+    file_path = os.path.abspath("testdata/files/0184.pdf")
 
     if not os.path.exists(file_path):
         raise Exception(f"File not found: {file_path}")

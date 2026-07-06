@@ -13,7 +13,7 @@ class ProjectPage:
 
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 180)
+        self.wait = WebDriverWait(driver, 280)
 
     def safe_click(self, element):
         self.driver.execute_script(
@@ -255,16 +255,33 @@ class ProjectPage:
         field.send_keys(name)
 
 
-    def upload_file(self, file_path):
+    # def upload_file(self, file_path):
 
+    #     file_path = os.path.abspath(file_path)
+
+    #     upload = self.wait.until(EC.presence_of_element_located(
+    #         (By.XPATH, "//input[@type='file']")
+    #     ))
+
+    #     # IMPORTANT for hidden input
+    #     self.driver.execute_script("arguments[0].style.display='block';", upload)
+
+    #     upload.send_keys(file_path)
+
+    def upload_file(self, file_path):
         file_path = os.path.abspath(file_path)
 
-        upload = self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, "//input[@type='file']")
-        ))
+        uploads = self.driver.find_elements(
+            By.XPATH,
+            "//input[@type='file']"
+        )
 
-        # IMPORTANT for hidden input
-        self.driver.execute_script("arguments[0].style.display='block';", upload)
+        upload = uploads[-1]
+
+        self.driver.execute_script(
+            "arguments[0].style.display='block';",
+            upload
+        )
 
         upload.send_keys(file_path)
 
@@ -286,6 +303,8 @@ class ProjectPage:
     def verify_project_created(self, name):
         locator = (By.XPATH, f"//h3[normalize-space()='{name}']")
         return self.wait.until(EC.visibility_of_element_located(locator)).is_displayed()
+
+    
     
     # ================= FILE UPLOAD ================= #
     def open_project(self, project_name):
@@ -348,23 +367,41 @@ class ProjectPage:
             lambda d: len(d.find_elements(By.XPATH, "//input[@type='text']")) > 0
         )
 
-    def edit_space_name(self, new_name):
+    # def edit_space_name(self, new_name):
 
-        inputs = self.wait.until(
-            EC.presence_of_all_elements_located((By.XPATH, "//input[@type='text']"))
+    #     inputs = self.wait.until(
+    #         EC.presence_of_all_elements_located((By.XPATH, "//input[@type='text']"))
+    #     )
+
+    #     field = None
+
+    #     for inp in inputs:
+    #         if inp.is_displayed():
+    #             field = inp
+    #             break
+
+    #     if not field:
+    #         raise Exception("Edit input field not found")
+
+    #     field.click()
+    #     field.clear()
+    #     field.send_keys(new_name)
+
+
+    def edit_space_name(self, new_name):
+        field = self.wait.until(
+            lambda d: next(
+                (
+                    e for e in d.find_elements(
+                        By.XPATH,
+                        "//input[@type='text' and not(@placeholder='Search drawings...')]"
+                    )
+                    if e.is_displayed()
+                ),
+                None,
+            )
         )
 
-        field = None
-
-        for inp in inputs:
-            if inp.is_displayed():
-                field = inp
-                break
-
-        if not field:
-            raise Exception("Edit input field not found")
-
-        field.click()
         field.clear()
         field.send_keys(new_name)
 
@@ -710,8 +747,383 @@ class ProjectPage:
 
         raise Exception("Classification file not downloaded")
 
+    # ================= Organization wide search ================= #
 
-    
+    def take_screenshot(self, file_path):
+        self.driver.save_screenshot(file_path)
 
+
+    # Organization page
+    def click_back_to_organization(self):
+        locator = (By.XPATH, "//button[@title='Back to Organization']")
+
+        element = self.wait.until(
+            EC.element_to_be_clickable(locator)
+        )
+
+        self.driver.execute_script("arguments[0].click();", element)
+
+
+    # Project page
+    def click_back_to_projects(self):
+        locator = (
+            By.XPATH,
+            "//button[contains(.,'Back to Projects')]"
+        )
+
+        element = self.wait.until(
+            EC.element_to_be_clickable(locator)
+        )
+
+        self.driver.execute_script("arguments[0].click();", element)
+
+
+    def search_organization(self, name):
+        search = (
+            By.XPATH,
+            "//input[@placeholder='Search drawings...']"
+        )
+
+        box = self.wait.until(
+            EC.visibility_of_element_located(search)
+        )
+
+        box.clear()
+        box.send_keys(name)
+
+
+    def verify_search_result(self, text):
+        locator = (
+            By.XPATH,
+            f"//*[contains(text(),'{text}')]"
+        )
+
+        return self.wait.until(
+            EC.visibility_of_element_located(locator)
+        ).is_displayed()
+
+
+    def click_search_result(self, text):
+        locator = (
+            By.XPATH,
+            f"(//*[contains(text(),'{text}')])[1]"
+        )
+
+        element = self.wait.until(
+            EC.element_to_be_clickable(locator)
+        )
+
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});",
+            element
+        )
+
+        self.driver.execute_script(
+            "arguments[0].click();",
+            element
+        )
+
+    #---------------------------SHARE PROJECT-------------------------#
+
+    # Click on 3 dots
+    def click_on_3_dots(self):
+        three_dots_button = self.wait.until(
+            EC.element_to_be_clickable(
+                (
+                    By.XPATH,
+                    "//button[contains(@class,'rounded-lg') and .//*[name()='svg' and @viewBox='0 0 192 512']]"
+                )
+            )
+        )
+
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});",
+            three_dots_button
+        )
+
+        self.driver.execute_script(
+            "arguments[0].click();",
+            three_dots_button
+        )
+        
+    def click_share_project(self):
+        # Wait for the share button to be clickable   
+        share_button = self.wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, "//button[@class='flex items-center gap-2 w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors']")
+            )
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", share_button)
+        self.driver.execute_script("arguments[0].click();", share_button)
+
+    def enter_email_to_share(self, email):
+        email_input = self.wait.until(
+            EC.visibility_of_element_located(
+                (By.XPATH, "//input[@placeholder='Search by name or email...']")
+            )
+        )
+        email_input.clear()
+        email_input.send_keys(email)
+
+    def click_share_button(self):
+        share_button = self.wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, "//button[@type='submit' and normalize-space()='Share']")
+            )
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", share_button)
+        self.driver.execute_script("arguments[0].click();", share_button)
+
+    def close_share_dialog(self):
+
+        close_btn = self.wait.until(
+            EC.element_to_be_clickable(
+                (
+                    By.XPATH,
+                    "//*[name()='path' and contains(@d,'M242.72 256')]/ancestor::button"
+                )
+            )
+        )
+
+        self.driver.execute_script("arguments[0].click();", close_btn)
+
+    # Logout method
+    def click_logout(self):
+        self.wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Logout']"))).click()
+
+    #---------------------------Reports Builder-------------------------#
+    def click_reports_builder(self):
+        self.wait.until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Reports']"))).click()
+
+    def click_start_building(self):
+        self.wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Start Building →')]"))).click()
+
+    #choose data which you want to include in the report
+    def select_specific_space_path(self):
+        radio = self.wait.until(
+            EC.element_to_be_clickable(
+                (
+                    By.XPATH,
+                    "//input[@type='radio' and @value='spaces']"
+                )
+            )
+        )
+
+        self.driver.execute_script("arguments[0].click();", radio)
+
+    #click on checkbox which rootspace created now
+    def select_root_space_for_report(self, root_space_name):
+
+        checkbox_locator = (
+            By.XPATH,
+            f"//span[normalize-space()='{root_space_name}']/preceding-sibling::input[@type='checkbox']"
+        )
+
+        checkbox = self.wait.until(
+            EC.element_to_be_clickable(checkbox_locator)
+        )
+
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});",
+            checkbox
+        )
+
+        self.driver.execute_script(
+            "arguments[0].click();",
+            checkbox
+        )
+
+    #click on next preview button
+    def click_next_preview(self):
+        self.wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Next: Preview →')]"))).click()
+
+    #Select the columns which you want to include in the report
+    def select_columns_for_report(self, column_name):
+
+        label = self.wait.until(
+            EC.element_to_be_clickable(
+                (
+                    By.XPATH,
+                    f"//span[contains(normalize-space(),'{column_name}')]/ancestor::label"
+                )
+            )
+        )
+
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});",
+            label
+        )
+
+        self.driver.execute_script(
+            "arguments[0].click();",
+            label
+        )
+
+    #click on save template button
+    def click_save_template(self):
+        self.wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Save Template']"))).click()
+
+    # Enter the template name
+    def enter_template_name(self, template_name):
+
+        template_input = self.wait.until(
+            EC.visibility_of_element_located(
+                (
+                    By.XPATH,
+                    "//input[@placeholder='e.g., Monthly Tariff Summary']"
+                )
+            )
+        )
+
+        template_input.clear()
+        template_input.send_keys(template_name)
+
+
+    # Enter the template description
+    def enter_template_description(self, template_description):
+
+        description_input = self.wait.until(
+            EC.visibility_of_element_located(
+                (
+                    By.XPATH,
+                    "//textarea[@placeholder='What is this report for?']"
+                )
+            )
+        )
+
+        description_input.clear()
+        description_input.send_keys(template_description)
+
+    #click on save button to save the template
+    def click_save_template_button(self):
+        button = self.wait.until(
+            EC.element_to_be_clickable(
+                (
+                    By.XPATH,
+                    "//button[@class='px-4 py-2 bg-teal-700 text-white text-sm font-medium rounded-lg hover:bg-teal-800 transition-colors']"
+                )
+            )
+        )
+
+        self.driver.execute_script("arguments[0].click();", button)
+
+    # def wait_for_toast_to_disappear(self):
+
+    #     self.wait.until(
+    #     EC.invisibility_of_element_located(
+    #         (
+    #             By.XPATH,
+    #             "//*[contains(@class,'Toastify__toast')]"
+    #         )
+    #     )
+    # )
+        
+    def close_toast(self):
+        try:
+            close_btn = WebDriverWait(self.driver, 5).until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, "//button[contains(@class,'Toastify__close-button')]")
+                )
+            )
+            close_btn.click()
+        except:
+            pass
+
+    #Click on export button to export the report
+    def click_export_report(self):
+
+        button = self.wait.until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//button[normalize-space()='Export']")
+            )
+        )
+
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});",
+            button
+        )
+
+        self.driver.execute_script(
+            "arguments[0].click();",
+            button
+        )
+
+    #click on excel option to export the report in excel format
+    def click_export_excel(self):
+
+        excel = self.wait.until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//button[normalize-space()='Excel (.xlsx)']")
+            )
+        )
+
+        self.driver.execute_script(
+            "arguments[0].click();",
+            excel
+        )
+
+    # ================= EXCEL DOWNLOAD ================= #
+
+    def wait_for_excel_download(self, download_dir, timeout=60):
+
+        end_time = time.time() + timeout
+
+        while time.time() < end_time:
+
+            files = os.listdir(download_dir)
+
+            for file in files:
+                if (
+                    file.endswith(".xlsx")
+                    and not file.endswith(".crdownload")
+                ):
+                    print("Excel downloaded:", file)
+                    return True
+
+            time.sleep(1)
+
+        raise Exception("Excel report was not downloaded")
+
+
+    #click on csv option to export the report in csv format
+    def click_export_csv(self):
+
+        csv = self.wait.until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//button[normalize-space()='CSV (.csv)']")
+            )
+        )
+
+        self.driver.execute_script(
+            "arguments[0].click();",
+            csv
+        )
+
+    # ================= CSV DOWNLOAD ================= #
+
+    def wait_for_csv_download(self, download_dir, timeout=60):
+
+        end_time = time.time() + timeout
+
+        while time.time() < end_time:
+
+            files = os.listdir(download_dir)
+
+            for file in files:
+                if (
+                    file.endswith(".csv")
+                    and not file.endswith(".crdownload")
+                ):
+                    print("CSV downloaded:", file)
+                    return True
+
+            time.sleep(1)
+
+        raise Exception("CSV report was not downloaded")
+
+    #assert success message after template saved successfully
+    def verify_template_saved_successfully(self):
+        success_message = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'Template saved!')]")))
+        return success_message.is_displayed()
 
         

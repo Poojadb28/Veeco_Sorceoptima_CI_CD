@@ -57,4 +57,4 @@ class UserAdminPage:
         return self.wait.until(EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'User created successfully')]"))).text
     
     def get_duplicate_error(self):
-        return self.wait.until(EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'Failed to create user')]"))).text
+        return self.wait.until(EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'user with this Email already exists.')]"))).text
